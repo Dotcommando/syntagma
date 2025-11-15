@@ -1,0 +1,49 @@
+<script type="text/javascript">
+  RED.nodes.registerType('syntagma-mongo-config', {
+    category: 'config',
+    defaults: {
+      name: { value: '' },
+      envVarName: { value: 'SYNTAGMA_MONGO_URL' },
+      preferEnvUrl: { value: true },
+      url: { value: '' },
+      dbName: { value: 'syntagma' }
+    },
+    label: function () {
+      return this.name || 'syntagma-mongo-config';
+    }
+  });
+</script>
+
+<div id="node-config-syntagma-mongo-config">
+    <div class="form-row">
+        <label for="node-config-input-name">
+            <i class="fa fa-tag"></i>
+            Name
+        </label>
+        <input type="text" id="node-config-input-name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-envVarName">
+            Env var
+        </label>
+        <input type="text" id="node-config-input-envVarName">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-preferEnvUrl">
+            Prefer env URL
+        </label>
+        <input type="checkbox" id="node-config-input-preferEnvUrl" style="width:auto;">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-url">
+            Mongo URL
+        </label>
+        <input type="text" id="node-config-input-url">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-dbName">
+            DB name
+        </label>
+        <input type="text" id="node-config-input-dbName">
+    </div>
+</div>

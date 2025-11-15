@@ -1,0 +1,55 @@
+{
+  "name": "node-red-contrib-syntagma-core",
+  "version": "0.1.0",
+  "description": "AI Orchestrator. Allows to create teams of AI agents",
+  "author": "Mikhail Filchushkin <webestet@gmail.com>",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.cjs",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.cjs"
+    }
+  },
+  "node-red": {
+    "nodes": {
+      "syntagma-core": "dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && cpy \"src/**/*.html\" dist --parents && cpy \"src/editor/*.js\" dist/editor && node scripts/postbuild-fix-extensions.mjs",
+    "watch": "concurrently \"tsc -w\" \"cpy 'src/**/*.html' dist --parents --watch\" \"cpy 'src/editor/*.js' dist/editor --watch\"",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.38.0",
+    "@stylistic/eslint-plugin": "5.5.0",
+    "@types/node": "24.9.1",
+    "@typescript-eslint/eslint-plugin": "8.46.2",
+    "@typescript-eslint/parser": "8.46.2",
+    "concurrently": "9.2.1",
+    "cpy-cli": "6.0.0",
+    "eslint": "9.38.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-prettier": "5.5.4",
+    "eslint-plugin-simple-import-sort": "12.1.1",
+    "husky": "9.1.7",
+    "lint-staged": "16.2.6",
+    "prettier": "3.6.2",
+    "typescript": "5.9.3"
+  },
+  "lint-staged": {
+    "*.{ts,js,mjs,cjs}": [
+      "eslint --fix"
+    ],
+    "*.json": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "mongodb": "7.0.0"
+  }
+}
