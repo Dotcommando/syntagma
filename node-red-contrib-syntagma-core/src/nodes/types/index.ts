@@ -2,9 +2,16 @@ export interface INode {
   id: string;
   type: string;
   name?: string;
+
   send(msg: unknown): void;
   error(message: string): void;
+  status(status: { fill: string; shape: string; text: string }): void;
   on(event: string, handler: (...args: unknown[]) => void): void;
+
+  // custom fields used by specific nodes
+  mongo?: unknown;
+  mongoConfig?: unknown;
+
   [key: string]: unknown;
 }
 

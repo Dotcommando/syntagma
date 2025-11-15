@@ -1,0 +1,65 @@
+<script type="text/html" data-template-name="syntagma-mongo-config">
+    <div class="form-row">
+        <label for="node-config-input-name">
+            <i class="fa fa-tag"></i>
+            Name
+        </label>
+        <input type="text" id="node-config-input-name" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-config-input-envVarName">
+            Environment variable
+        </label>
+        <input type="text" id="node-config-input-envVarName" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-config-input-preferEnvUrl">
+            Prefer URL from environment
+        </label>
+        <input type="checkbox" id="node-config-input-preferEnvUrl" style="width:auto;" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-config-input-url">
+            MongoDB URL
+        </label>
+        <input type="text" id="node-config-input-url" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-config-input-dbName">
+            Database name
+        </label>
+        <input type="text" id="node-config-input-dbName" />
+    </div>
+</script>
+
+<script type="text/html" data-help-name="syntagma-mongo-config">
+    <p>Configuration node for Syntagma MongoDB connection.</p>
+    <ul>
+        <li><b>Environment variable</b> — name of the environment variable containing the MongoDB URL.</li>
+        <li><b>Prefer URL from environment</b> — if enabled, the URL from environment overrides the node value.</li>
+        <li><b>MongoDB URL</b> — fallback URL used when the environment variable is empty or disabled.</li>
+        <li><b>Database name</b> — database to use (defaults to <code>syntagma</code>).</li>
+    </ul>
+</script>
+
+<script type="text/javascript">
+  (function () {
+    RED.nodes.registerType('syntagma-mongo-config', {
+      category: 'config',
+      defaults: {
+        name: { value: '' },
+        envVarName: { value: 'MONGO_URL' },
+        preferEnvUrl: { value: true },
+        url: { value: '' },
+        dbName: { value: 'syntagma' }
+      },
+      label: function () {
+        return this.name || 'syntagma-mongo-config';
+      }
+    });
+  })();
+</script>

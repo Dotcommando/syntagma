@@ -14,7 +14,8 @@
   },
   "node-red": {
     "nodes": {
-      "syntagma-mongo-config": "dist/nodes/mongo/syntagma-mongo-config.node.cjs"
+      "syntagma-mongo-config": "dist/nodes/mongo/syntagma-mongo-config.node.cjs",
+      "syntagma-mongo-test": "dist/nodes/mongo/syntagma-mongo-test.node.cjs"
     }
   },
   "scripts": {

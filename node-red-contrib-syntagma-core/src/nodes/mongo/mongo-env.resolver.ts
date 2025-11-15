@@ -4,7 +4,14 @@ export class SyntagmaMongoEnvResolver implements ISyntagmaMongoEnvResolver {
   readonly defaultEnvVarNames: string[];
 
   constructor() {
-    this.defaultEnvVarNames = ['SYNTAGMA_MONGO_URL', 'MONGO_URL'];
+    this.defaultEnvVarNames = [
+      'MONGO_URL',
+      'SYNTAGMA_MONGO_URL',
+      'MONGODB_URI',
+      'MONGODB_URL',
+      'MONGODB_CONNECTION_STRING',
+      'MONGO_CONNECTION_STRING'
+    ];
   }
 
   resolve(customEnvVarName?: string): ISyntagmaMongoEnvConfig {
@@ -23,7 +30,7 @@ export class SyntagmaMongoEnvResolver implements ISyntagmaMongoEnvResolver {
       }
     }
 
-    const envVarName = candidates.length > 0 ? candidates[0] : 'SYNTAGMA_MONGO_URL';
+    const envVarName = candidates.length > 0 ? candidates[0] : 'MONGO_URL';
 
     return {
       envVarName,

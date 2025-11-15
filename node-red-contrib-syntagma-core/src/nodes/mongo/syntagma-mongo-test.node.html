@@ -1,0 +1,47 @@
+<script type="text/html" data-template-name="syntagma-mongo-test">
+    <div class="form-row">
+        <label for="node-input-name">
+            <i class="fa fa-tag"></i>
+            Name
+        </label>
+        <input type="text" id="node-input-name" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-mongo">
+            Mongo config
+        </label>
+        <input type="text" id="node-input-mongo" />
+    </div>
+</script>
+
+<script type="text/html" data-help-name="syntagma-mongo-test">
+    <p>Test node for Syntagma Mongo config.</p>
+    <p>
+        On input, it pings MongoDB using the selected
+        <code>syntagma-mongo-config</code> node and returns the result in
+        <code>msg.payload</code>.
+    </p>
+</script>
+
+<script type="text/javascript">
+  (function () {
+    RED.nodes.registerType('syntagma-mongo-test', {
+      category: 'Syntagma',
+      color: '#e2d96e',
+      defaults: {
+        name: { value: '' },
+        mongo: { value: '', type: 'syntagma-mongo-config', required: true }
+      },
+      inputs: 1,
+      outputs: 1,
+      icon: 'db.svg',
+      label: function () {
+        return this.name || 'syntagma-mongo-test';
+      },
+      labelStyle: function () {
+        return this.name ? 'node_label_italic' : '';
+      }
+    });
+  })();
+</script>
