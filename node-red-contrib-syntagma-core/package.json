@@ -5,16 +5,16 @@
   "author": "Mikhail Filchushkin <webestet@gmail.com>",
   "private": true,
   "type": "module",
-  "main": "dist/index.cjs",
+  "main": "dist/nodes/index.cjs",
   "exports": {
     ".": {
-      "require": "./dist/index.cjs",
-      "default": "./dist/index.cjs"
+      "require": "./dist/nodes/index.cjs",
+      "default": "./dist/nodes/index.cjs"
     }
   },
   "node-red": {
     "nodes": {
-      "syntagma-core": "dist/index.cjs"
+      "syntagma-mongo-config": "dist/nodes/mongo/syntagma-mongo-config.node.cjs"
     }
   },
   "scripts": {
@@ -23,6 +23,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepare": "husky install"
+  },
+  "dependencies": {
+    "mongodb": "7.0.0"
   },
   "devDependencies": {
     "@eslint/js": "9.38.0",
@@ -48,8 +51,5 @@
     "*.json": [
       "prettier --write"
     ]
-  },
-  "dependencies": {
-    "mongodb": "7.0.0"
   }
 }

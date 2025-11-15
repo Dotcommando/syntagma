@@ -21,7 +21,7 @@ class DefaultMongoConnectionManagerFactory implements ISyntagmaMongoConnectionMa
   }
 }
 
-export function registerMongoConfigNode(RED: ISyntagmaRED): void {
+function syntagmaMongoConfigNode(RED: ISyntagmaRED): void {
   const envResolver = new SyntagmaMongoEnvResolver();
   const configResolver = new SyntagmaMongoConfigResolver();
   const factory = new DefaultMongoConnectionManagerFactory();
@@ -80,3 +80,5 @@ export function registerMongoConfigNode(RED: ISyntagmaRED): void {
     MongoConfigNode
   );
 }
+
+export = syntagmaMongoConfigNode;
