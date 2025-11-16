@@ -1,0 +1,75 @@
+<script type="text/javascript">
+  (function () {
+    RED.nodes.registerType('syntagma-mem-write', {
+      category: 'syntagma',
+      color: '#c0e0ff',
+      defaults: {
+        name: { value: '' },
+        mongoConfigNodeId: { value: '', type: 'syntagma-mongo-config', required: true },
+        embeddingsEnabled: { value: false },
+        defaultEmbeddingProviderKey: { value: '' },
+        defaultEmbeddingModelKey: { value: '' },
+        writeMode: { value: 'insert' },
+      },
+      inputs: 1,
+      outputs: 1,
+      icon: 'database.png',
+      paletteLabel: 'mem write',
+      label: function () {
+        return this.name || 'syntagma-mem-write';
+      },
+    });
+  })();
+</script>
+
+<script type="text/html" data-template-name="syntagma-mem-write">
+    <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" />
+    </div>
+
+    <div class="form-row">
+      <label for="node-input-mongoConfigNodeId"><i class="fa fa-database"></i> Mongo config</label>
+      <input type="text" id="node-input-mongoConfigNodeId" />
+    </div>
+
+    <div class="form-row">
+      <label for="node-input-embeddingsEnabled"><i class="fa fa-braille"></i> Embeddings</label>
+      <input type="checkbox" id="node-input-embeddingsEnabled" style="width: auto; vertical-align: middle;" />
+      <span>Enable automatic embeddings (if supported)</span>
+    </div>
+
+    <div class="form-row">
+      <label for="node-input-defaultEmbeddingProviderKey"><i class="fa fa-plug"></i> Provider</label>
+      <input type="text" id="node-input-defaultEmbeddingProviderKey" />
+    </div>
+
+    <div class="form-row">
+      <label for="node-input-defaultEmbeddingModelKey"><i class="fa fa-cube"></i> Model</label>
+      <input type="text" id="node-input-defaultEmbeddingModelKey" />
+    </div>
+
+    <div class="form-row">
+      <label for="node-input-writeMode"><i class="fa fa-exchange"></i> Write mode</label>
+      <select id="node-input-writeMode">
+        <option value="insert">Insert</option>
+        <option value="upsert">Upsert (reserved)</option>
+      </select>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="syntagma-mem-write">
+    <p>
+      Writes memory entries (project / task / personal) to the <code>syntagma_mem_entries</code> collection.
+    </p>
+
+    <p>
+      The node expects <code>msg.memBatch</code> to be an array of items with a <code>scope</code> field:
+      <code>project</code>, <code>task</code>, or <code>personal</code>. It automatically fills
+      <code>projectId</code>, <code>taskId</code>, and owner/author fields from the message if they are not provided.
+    </p>
+
+    <p>
+      On success, the node sets <code>msg.memWriteResult</code> with <code>insertedCount</code> and per-item results.
+    </p>
+</script>
