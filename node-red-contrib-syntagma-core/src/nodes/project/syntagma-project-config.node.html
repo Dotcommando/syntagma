@@ -1,0 +1,44 @@
+<script type="text/html" data-template-name="syntagma-project-config">
+    <div class="form-row">
+        <label for="node-config-input-name">
+            <i class="fa fa-tag"></i>
+            Name
+        </label>
+        <input type="text" id="node-config-input-name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-config-input-projectId">
+            Project ID
+        </label>
+        <input type="text" id="node-config-input-projectId">
+    </div>
+
+    <div class="form-row">
+        <label for="node-config-input-configJson">
+            Project config (JSON)
+        </label>
+        <textarea id="node-config-input-configJson" style="width: 100%; height: 260px; font-family: monospace;"></textarea>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="syntagma-project-config">
+    <p>Project-level configuration for Syntagma orchestration.</p>
+    <p>The JSON should match the <code>ISyntagmaProjectConfig</code> structure.</p>
+</script>
+
+<script type="text/javascript">
+  (function () {
+    RED.nodes.registerType('syntagma-project-config', {
+      category: 'config',
+      defaults: {
+        name: { value: '' },
+        projectId: { value: '' },
+        configJson: { value: '', required: true }
+      },
+      label: function () {
+        return this.name || this.projectId || 'syntagma-project-config';
+      }
+    });
+  })();
+</script>
