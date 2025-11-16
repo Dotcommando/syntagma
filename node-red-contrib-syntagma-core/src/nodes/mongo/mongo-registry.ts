@@ -2,7 +2,7 @@ import type { ISyntagmaMongoEffectiveConfig } from './mongo-config.types';
 import type {
   ISyntagmaMongoConnectionManager,
   ISyntagmaMongoConnectionManagerFactory,
-  ISyntagmaMongoRegistry
+  ISyntagmaMongoRegistry,
 } from './mongo-connection.types';
 
 export class SyntagmaMongoRegistry implements ISyntagmaMongoRegistry {

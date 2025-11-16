@@ -1,9 +1,7 @@
 import { MongoClient } from 'mongodb';
 
 import type { ISyntagmaMongoEffectiveConfig } from './mongo-config.types';
-import type {
-  ISyntagmaMongoConnectionManager
-} from './mongo-connection.types';
+import type { ISyntagmaMongoConnectionManager } from './mongo-connection.types';
 
 export class SyntagmaMongoConnectionManager implements ISyntagmaMongoConnectionManager {
   readonly config: ISyntagmaMongoEffectiveConfig;

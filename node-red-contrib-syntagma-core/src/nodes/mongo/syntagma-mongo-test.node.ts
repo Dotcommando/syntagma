@@ -1,7 +1,7 @@
 import type { INode } from '../types';
 import type {
   ISyntagmaMongoConfigNode,
-  ISyntagmaMongoConfigNodeDef
+  ISyntagmaMongoConfigNodeDef,
 } from './mongo-config.types';
 import type { ISyntagmaRED } from './mongo-connection.types';
 
@@ -13,7 +13,9 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
-function isSyntagmaMongoConfigNode(value: unknown): value is ISyntagmaMongoConfigNode {
+function isSyntagmaMongoConfigNode(
+  value: unknown
+): value is ISyntagmaMongoConfigNode {
   if (!isRecord(value)) {
     return false;
   }
@@ -54,8 +56,8 @@ function syntagmaMongoTestNode(RED: ISyntagmaRED): void {
       const send = typeof maybeSend === 'function'
           ? maybeSend
           : (innerMsg: unknown): void => {
-            this.send(innerMsg);
-          };
+              this.send(innerMsg);
+            };
       const done = typeof maybeDone === 'function' ? maybeDone : undefined;
 
       if (!isRecord(msg)) {
@@ -74,7 +76,7 @@ function syntagmaMongoTestNode(RED: ISyntagmaRED): void {
         this.status({ fill: 'red', shape: 'ring', text: 'no mongo config' });
         msg.payload = {
           ok: false,
-          error: 'Mongo config node is not available'
+          error: 'Mongo config node is not available',
         };
         send(msg);
 
@@ -91,8 +93,8 @@ function syntagmaMongoTestNode(RED: ISyntagmaRED): void {
 
       configNode.connectionManager
         .getDb()
-        .then(db => db.command({ ping: 1 }))
-        .then(result => {
+        .then((db) => db.command({ ping: 1 }))
+        .then((result) => {
           this.status({ fill: 'green', shape: 'dot', text: 'ping ok' });
 
           msg.payload = {
@@ -104,9 +106,9 @@ function syntagmaMongoTestNode(RED: ISyntagmaRED): void {
               source: effectiveConfig.source,
               envVarName: effectiveConfig.envVarName,
               rawFromEnv: effectiveConfig.rawFromEnv,
-              rawFromNode: effectiveConfig.rawFromNode
+              rawFromNode: effectiveConfig.rawFromNode,
             },
-            at: new Date().toISOString()
+            at: new Date().toISOString(),
           };
 
           send(msg);
@@ -115,7 +117,7 @@ function syntagmaMongoTestNode(RED: ISyntagmaRED): void {
             done();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           let message = 'Mongo ping failed';
 
           if (error instanceof Error) {
@@ -134,9 +136,9 @@ function syntagmaMongoTestNode(RED: ISyntagmaRED): void {
               source: effectiveConfig.source,
               envVarName: effectiveConfig.envVarName,
               rawFromEnv: effectiveConfig.rawFromEnv,
-              rawFromNode: effectiveConfig.rawFromNode
+              rawFromNode: effectiveConfig.rawFromNode,
             },
-            at: new Date().toISOString()
+            at: new Date().toISOString(),
           };
 
           send(msg);

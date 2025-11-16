@@ -10,7 +10,7 @@ export class SyntagmaMongoEnvResolver implements ISyntagmaMongoEnvResolver {
       'MONGODB_URI',
       'MONGODB_URL',
       'MONGODB_CONNECTION_STRING',
-      'MONGO_CONNECTION_STRING'
+      'MONGO_CONNECTION_STRING',
     ];
   }
 
@@ -34,7 +34,7 @@ export class SyntagmaMongoEnvResolver implements ISyntagmaMongoEnvResolver {
 
     return {
       envVarName,
-      urlFromEnv: undefined
+      urlFromEnv: undefined,
     };
   }
 }

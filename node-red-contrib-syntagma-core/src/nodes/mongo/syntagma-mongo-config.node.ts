@@ -2,14 +2,14 @@ import type { INode } from '../types';
 import { SyntagmaMongoConfigResolver } from './mongo-config.resolver';
 import type {
   ISyntagmaMongoConfigNodeDef,
-  ISyntagmaMongoEffectiveConfig
+  ISyntagmaMongoEffectiveConfig,
 } from './mongo-config.types';
 import type {
   ISyntagmaMongoConnectionManager,
   ISyntagmaMongoConnectionManagerFactory,
   ISyntagmaMongoRegistry,
   ISyntagmaRED,
-  ISyntagmaRedSettings
+  ISyntagmaRedSettings,
 } from './mongo-connection.types';
 import { SyntagmaMongoConnectionManager } from './mongo-connection-manager';
 import { SyntagmaMongoEnvResolver } from './mongo-env.resolver';

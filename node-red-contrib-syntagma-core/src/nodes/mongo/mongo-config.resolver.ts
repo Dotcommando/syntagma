@@ -1,7 +1,7 @@
 import type {
   ISyntagmaMongoConfigNodeDef,
   ISyntagmaMongoConfigResolver,
-  ISyntagmaMongoEffectiveConfig
+  ISyntagmaMongoEffectiveConfig,
 } from './mongo-config.types';
 import type { ISyntagmaMongoEnvConfig } from './mongo-env.types';
 
@@ -27,7 +27,7 @@ export class SyntagmaMongoConfigResolver implements ISyntagmaMongoConfigResolver
         source: 'env',
         envVarName,
         rawFromEnv: envUrl,
-        rawFromNode: nodeUrl
+        rawFromNode: nodeUrl,
       };
     }
     if (nodeUrl.length > 0) {
@@ -37,7 +37,7 @@ export class SyntagmaMongoConfigResolver implements ISyntagmaMongoConfigResolver
         source: 'node',
         envVarName,
         rawFromEnv: envUrl,
-        rawFromNode: nodeUrl
+        rawFromNode: nodeUrl,
       };
     }
     if (envUrl.length > 0) {
@@ -47,7 +47,7 @@ export class SyntagmaMongoConfigResolver implements ISyntagmaMongoConfigResolver
         source: 'env',
         envVarName,
         rawFromEnv: envUrl,
-        rawFromNode: nodeUrl
+        rawFromNode: nodeUrl,
       };
     }
 
@@ -57,7 +57,7 @@ export class SyntagmaMongoConfigResolver implements ISyntagmaMongoConfigResolver
       source: preferEnv ? 'env' : 'node',
       envVarName,
       rawFromEnv: envUrl,
-      rawFromNode: nodeUrl
+      rawFromNode: nodeUrl,
     };
   }
 }
