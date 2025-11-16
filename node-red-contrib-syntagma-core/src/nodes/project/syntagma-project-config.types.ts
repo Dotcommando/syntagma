@@ -3,7 +3,7 @@ import type { INode } from '../types';
 export enum SYNTAGMA_PROJECT_TYPE {
   PRODUCT_DEV = 'product_dev',
   TREND_RESEARCH = 'trend_research',
-  CONTENT_PRODUCTION = 'content_production'
+  CONTENT_PRODUCTION = 'content_production',
 }
 
 export interface ISyntagmaProjectChatIds {

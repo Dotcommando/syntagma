@@ -5,7 +5,8 @@ import type {
   ISyntagmaProjectConfig,
   ISyntagmaSquadConfig,
   ISyntagmaSquadRoleConfig,
-  ISyntagmaStageBinding} from './syntagma-project-config.types';
+  ISyntagmaStageBinding,
+} from './syntagma-project-config.types';
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
