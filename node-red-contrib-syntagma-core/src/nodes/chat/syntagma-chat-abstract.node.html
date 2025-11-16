@@ -1,0 +1,88 @@
+<script type="text/html" data-template-name="syntagma-chat-abstract">
+    <div class="form-row">
+        <label for="node-input-name">
+            <i class="fa fa-tag"></i>
+            Name
+        </label>
+        <input type="text" id="node-input-name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-mongo">
+            Mongo config
+        </label>
+        <input type="text" id="node-input-mongo">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-defaultProjectId">
+            Default projectId
+        </label>
+        <input type="text" id="node-input-defaultProjectId">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-defaultChatKind">
+            Default chat kind
+        </label>
+        <input type="text" id="node-input-defaultChatKind" placeholder="project_general, project_mumble, ...">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-defaultChatKey">
+            Default chat key
+        </label>
+        <input type="text" id="node-input-defaultChatKey" placeholder="e.g. project:&lt;id&gt;:general">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="syntagma-chat-abstract">
+    <p>Abstract chat node for Syntagma.</p>
+    <p>
+        It stores incoming messages in MongoDB collections
+        <code>syntagma_chats</code> and <code>syntagma_chat_messages</code>.
+    </p>
+    <p>
+        Input <code>msg</code> is expected to follow the
+        <code>ISyntagmaChatIncomingMsg</code> structure:
+    </p>
+    <ul>
+        <li><code>msg.projectId</code> — project id (or use Default projectId from the node config)</li>
+        <li><code>msg.chatId</code> — optional existing chat id</li>
+        <li><code>msg.chatKey</code> — logical chat key (used to find or create a chat)</li>
+        <li><code>msg.chatKind</code> — optional chat kind (falls back to Default chat kind)</li>
+        <li><code>msg.chatMessage.text</code> and/or <code>msg.chatMessage.parts</code> — message content</li>
+        <li><code>msg.meta</code> — optional metadata (direction, role, mentions, transport bindings, author, ...)</li>
+    </ul>
+    <p>
+        On success, the node sets <code>msg.payload.ok = true</code> and
+        adds <code>chatId</code> and <code>messageId</code> to
+        <code>msg.payload</code>. It also updates <code>msg.chatId</code>
+        for downstream nodes.
+    </p>
+</script>
+
+<script type="text/javascript">
+  (function () {
+    RED.nodes.registerType('syntagma-chat-abstract', {
+      category: 'Syntagma',
+      color: '#e2d96e',
+      defaults: {
+        name: { value: '' },
+        mongo: { value: '', type: 'syntagma-mongo-config', required: true },
+        defaultProjectId: { value: '' },
+        defaultChatKind: { value: '' },
+        defaultChatKey: { value: '' }
+      },
+      inputs: 1,
+      outputs: 1,
+      icon: 'font-awesome/fa-comments',
+      label: function () {
+        return this.name || 'syntagma-chat-abstract';
+      },
+      labelStyle: function () {
+        return this.name ? 'node_label_italic' : '';
+      }
+    });
+  })();
+</script>
