@@ -1,4 +1,6 @@
-import type { INode, IRED } from '../types';
+import type { ISyntagmaMongoConfigNode } from '../mongo/mongo-config.types';
+import type { ISyntagmaRED } from '../mongo/mongo-connection.types';
+import type { INode } from '../types';
 import {
   ISyntagmaMemBatchItem,
   ISyntagmaMemEntry,
@@ -11,18 +13,6 @@ import {
 interface IMongoInsertManyResult {
   insertedCount: number;
   insertedIds: Record<string, unknown>;
-}
-
-interface IMongoCollection<T> {
-  insertMany(docs: T[]): Promise<IMongoInsertManyResult>;
-}
-
-interface IMongoDatabase {
-  collection<T>(name: string): IMongoCollection<T>;
-}
-
-interface IMongoConfigNode {
-  getDb(): Promise<IMongoDatabase>;
 }
 
 interface ISyntagmaMemWriteInMsg {
@@ -137,7 +127,7 @@ async function handleInput(
   node: INode,
   config: ISyntagmaMemWriteNodeConfig,
   msg: ISyntAGMA_MEM_WRITE_OUT_MSG,
-  mongoConfigNode: IMongoConfigNode,
+  mongoConfigNode: ISyntagmaMongoConfigNode,
   send: (msg: ISyntAGMA_MEM_WRITE_OUT_MSG) => void,
   done: (err?: unknown) => void
 ): Promise<void> {
@@ -195,9 +185,9 @@ async function handleInput(
   }
 
   try {
-    const db = await mongoConfigNode.getDb();
+    const db = await mongoConfigNode.connectionManager.getDb();
     const collection = db.collection<ISyntagmaMemEntry>('syntagma_mem_entries');
-    const insertResult = await collection.insertMany(entries);
+    const insertResult: IMongoInsertManyResult = await collection.insertMany(entries);
     const entryIdsByInsertIndex: string[] = [];
     const insertedKeys = Object.keys(insertResult.insertedIds);
     let k = 0;
@@ -262,17 +252,23 @@ async function handleInput(
   }
 }
 
-function registerNode(RED: IRED): void {
-  function isMongoConfigNode(value: unknown): value is IMongoConfigNode {
-    if (typeof value !== 'object' || value === null) return false;
+function registerNode(RED: ISyntagmaRED): void {
+  function isMongoConfigNode(value: unknown): value is ISyntagmaMongoConfigNode {
+    if (!isNonNullObject(value)) return false;
 
-    const getDb = Reflect.get(value, 'getDb');
+    const maybeConnectionManager = Reflect.get(value, 'connectionManager');
+
+    if (!isNonNullObject(maybeConnectionManager)) {
+      return false;
+    }
+
+    const getDb = Reflect.get(maybeConnectionManager, 'getDb');
 
     return typeof getDb === 'function';
   }
 
   function isMemWriteOutMsg(value: unknown): value is ISyntAGMA_MEM_WRITE_OUT_MSG {
-    if (typeof value !== 'object' || value === null) return false;
+    if (!isNonNullObject(value)) return false;
     if ('memBatch' in value) return true;
     if ('memWriteResult' in value) return true;
     if ('projectId' in value) return true;

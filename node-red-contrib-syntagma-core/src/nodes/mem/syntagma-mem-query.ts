@@ -1,4 +1,6 @@
-import type { INode, IRED } from '../types';
+import type { ISyntagmaMongoConfigNode } from '../mongo/mongo-config.types';
+import type { ISyntagmaRED } from '../mongo/mongo-connection.types';
+import type { INode } from '../types';
 import {
   ISyntagmaMemEmbedding,
   ISyntagmaMemEntry,
@@ -15,18 +17,6 @@ import {
 
 interface IMongoFilter {
   [key: string]: unknown;
-}
-
-interface IMongoCollection<T> {
-  find(filter: IMongoFilter): Promise<T[]>;
-}
-
-interface IMongoDatabase {
-  collection<T>(name: string): IMongoCollection<T>;
-}
-
-interface IMongoConfigNode {
-  getDb(): Promise<IMongoDatabase>;
 }
 
 interface ISyntagmaMemQueryNodeConfig {
@@ -105,12 +95,18 @@ function assertIsMemQueryNodeConfig(value: unknown): asserts value is ISyntagmaM
   }
 }
 
-function isMongoConfigNode(value: unknown): value is IMongoConfigNode {
+function isMongoConfigNode(value: unknown): value is ISyntagmaMongoConfigNode {
   if (!isNonNullObject(value)) {
     return false;
   }
 
-  const getDb = Reflect.get(value, 'getDb');
+  const maybeConnectionManager = Reflect.get(value, 'connectionManager');
+
+  if (!isNonNullObject(maybeConnectionManager)) {
+    return false;
+  }
+
+  const getDb = Reflect.get(maybeConnectionManager, 'getDb');
 
   return typeof getDb === 'function';
 }
@@ -446,13 +442,13 @@ function sortResults(items: ISyntagmaMemQueryResultItem[], sort: ISyntagmaMemQue
 async function handleInput(
   node: INode,
   config: ISyntagmaMemQueryNodeConfig,
-  mongoConfigNode: IMongoConfigNode,
+  mongoConfigNode: ISyntagmaMongoConfigNode,
   msg: ISyntagmaMemQueryOutMsg,
   send: (outMsg: ISyntagmaMemQueryOutMsg) => void,
   done: (err?: unknown) => void
 ): Promise<void> {
   try {
-    const db = await mongoConfigNode.getDb();
+    const db = await mongoConfigNode.connectionManager.getDb();
     const collection = db.collection<ISyntagmaMemEntry>(config.collectionName || 'syntagma_mem');
     const incomingQuery = msg.memQuery;
     const scopes = getEffectiveScopes(config, incomingQuery ? incomingQuery.filter : undefined);
@@ -471,7 +467,7 @@ async function handleInput(
       msg.roleKey,
       incomingQuery ? incomingQuery.textSearch : undefined
     );
-    const entries = await collection.find(mongoFilter);
+    const entries = await collection.find(mongoFilter).toArray();
     const resultItems: ISyntagmaMemQueryResultItem[] = [];
     let queryEmbedding: ISyntagmaMemEmbedding | undefined;
 
@@ -552,7 +548,7 @@ async function handleInput(
   }
 }
 
-const syntagmaMemQueryNodeFactory = (RED: IRED): void => {
+const syntagmaMemQueryNodeFactory = (RED: ISyntagmaRED): void => {
   function SyntagmaMemQueryNode(this: INode, config: unknown): void {
     assertIsMemQueryNodeConfig(config);
 
