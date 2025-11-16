@@ -1,16 +1,19 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import js from '@eslint/js';
 import tsParser from '@typescript-eslint/parser';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import stylistic from '@stylistic/eslint-plugin';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default [
-  { ignores: ['dist/**'] },
+  {
+    ignores: ['dist/**']
+  },
   js.configs.recommended,
   {
     files: ['**/*.ts', '**/*.mts', '**/*.cts'],
@@ -61,6 +64,19 @@ export default [
             '&&': 'before',
             '||': 'before'
           }
+        }
+      ],
+      '@stylistic/comma-dangle': [
+        'error',
+        {
+          arrays: 'always-multiline',
+          objects: 'always-multiline',
+          imports: 'always-multiline',
+          exports: 'always-multiline',
+          functions: 'never',
+          enums: 'always-multiline',
+          tuples: 'always-multiline',
+          generics: 'always-multiline'
         }
       ],
       '@typescript-eslint/prefer-optional-chain': [
