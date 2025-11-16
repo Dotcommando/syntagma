@@ -1,4 +1,5 @@
 import registerChatAbstractNode from './chat/syntagma-chat-abstract.node';
+import registerMemQueryNode from './mem/syntagma-mem-query';
 import registerMemWriteNode from './mem/syntagma-mem-write';
 import type { ISyntagmaRED } from './mongo/mongo-connection.types';
 import registerMongoConfigNode from './mongo/syntagma-mongo-config.node';
@@ -11,6 +12,7 @@ function syntagmaCore(RED: ISyntagmaRED): void {
   registerProjectConfigNode(RED);
   registerChatAbstractNode(RED);
   registerMemWriteNode(RED);
+  registerMemQueryNode(RED);
 }
 
 export = syntagmaCore;

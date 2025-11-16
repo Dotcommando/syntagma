@@ -1,0 +1,102 @@
+<script type="text/html" data-template-name="syntagma-mem-query">
+    <div class="form-row">
+        <label for="node-input-name"><span>Name</span></label>
+        <input type="text" id="node-input-name" placeholder="Name" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-mongoConfig"><span>Mongo config</span></label>
+        <input type="text" id="node-input-mongoConfig" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-collectionName"><span>Collection</span></label>
+        <input type="text" id="node-input-collectionName" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-defaultScopes"><span>Default scopes</span></label>
+        <input type="text" id="node-input-defaultScopes" placeholder="project,task,personal" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-defaultLimit"><span>Default limit</span></label>
+        <input type="number" id="node-input-defaultLimit" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-maxLimit"><span>Max limit</span></label>
+        <input type="number" id="node-input-maxLimit" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-enableVectorSearch"><span>Vector search</span></label>
+        <input type="checkbox" id="node-input-enableVectorSearch" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-defaultTopK"><span>Default topK</span></label>
+        <input type="number" id="node-input-defaultTopK" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-defaultSimilarityThreshold"><span>Default similarity threshold</span></label>
+        <input type="number" step="0.01" id="node-input-defaultSimilarityThreshold" />
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-defaultSortField"><span>Default sort field</span></label>
+        <select id="node-input-defaultSortField">
+            <option value=""></option>
+            <option value="createdAt">createdAt</option>
+            <option value="importance">importance</option>
+            <option value="similarity">similarity</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-defaultSortOrder"><span>Default sort order</span></label>
+        <select id="node-input-defaultSortOrder">
+            <option value=""></option>
+            <option value="asc">asc</option>
+            <option value="desc">desc</option>
+        </select>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="syntagma-mem-query">
+    <p>Query Syntagma memory entries by scope, ids, tags, importance, text, and optional vector similarity.</p>
+</script>
+
+<script type="text/javascript">
+  (function () {
+    RED.nodes.registerType('syntagma-mem-query', {
+      category: 'syntagma',
+      color: '#E2D96E',
+      inputs: 1,
+      outputs: 1,
+      icon: 'database.png',
+      align: 'right',
+      paletteLabel: 'mem query',
+      label: function () {
+        return this.name || 'syntagma-mem-query';
+      },
+      labelStyle: function () {
+        return this.name ? 'node_label_italic' : '';
+      },
+      defaults: {
+        name: { value: '' },
+        mongoConfig: { value: '', type: 'syntagma-mongo-config', required: true },
+        collectionName: { value: 'syntagma_mem', required: true },
+        defaultScopes: { value: '' },
+        defaultLimit: { value: 20 },
+        maxLimit: { value: 100 },
+        enableVectorSearch: { value: false },
+        defaultTopK: { value: 0 },
+        defaultSimilarityThreshold: { value: 0 },
+        defaultSortField: { value: '' },
+        defaultSortOrder: { value: '' },
+      },
+    });
+  })();
+</script>
